@@ -5,6 +5,19 @@ Queue priorities are from 0 to 10
 """
 from typing import Any
 
+pri_queue = {0: [],
+             1: [],
+             2: [],
+             3: [],
+             4: [],
+             5: [],
+             6: [],
+             7: [],
+             8: [],
+             9: [],
+             10: []
+             }
+
 
 def enqueue(elem: Any, priority: int = 0) -> None:
     """
