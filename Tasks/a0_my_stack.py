@@ -22,7 +22,10 @@ def pop() -> Any:
 
     :return: popped element
     """
-    result = my_stack.pop()
+    if my_stack:
+        result = my_stack.pop()
+    else:
+        result = None
     return result
 
 
@@ -33,8 +36,12 @@ def peek(ind: int = 0) -> Any:
     :param ind: index of element (count from the top, 0 - top, 1 - first from top, etc.)
     :return: peeked element or None if no element in this place
     """
-    print(ind)
-    return None
+    if ind < len(my_stack):
+        result = my_stack[-1 - ind]
+        # result = my_stack[0-ind]
+    else:
+        result = None
+    return result
 
 
 def clear() -> None:
@@ -47,12 +54,15 @@ def clear() -> None:
     return None
 
 if __name__ =='__main__':
-    push(1)
+    push((1, 5, 4))
     push(2)
     push(2)
+    push(3)
     push(2)
     print(my_stack)
     print(pop())
+    print(my_stack)
+    print(peek(15))
     print(my_stack)
     clear()
     print(my_stack)
