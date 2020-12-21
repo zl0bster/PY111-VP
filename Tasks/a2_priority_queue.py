@@ -26,6 +26,7 @@ def enqueue(elem: Any, priority: int = 0) -> None:
     :param elem: element to be added
     :return: Nothing
     """
+    pri_queue[priority].append(elem)
     return None
 
 
@@ -35,6 +36,10 @@ def dequeue() -> Any:
 
     :return: dequeued element
     """
+    for i in range(0, 11):
+        if pri_queue[i]:
+            result = pri_queue[i].pop(0)
+            return result
     return None
 
 
@@ -45,6 +50,10 @@ def peek(ind: int = 0, priority: int = 0) -> Any:
     :param ind: index of element (count from the beginning)
     :return: peeked element
     """
+    queue = pri_queue[priority]
+    if queue:
+        if ind < len(queue):
+            return queue[ind]
     return None
 
 
@@ -54,4 +63,7 @@ def clear() -> None:
 
     :return: None
     """
+    for i in range(0, 11):
+        if pri_queue[i]:
+            pri_queue[i].clear()
     return None
