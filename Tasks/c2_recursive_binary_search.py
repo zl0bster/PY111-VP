@@ -30,9 +30,7 @@ def binary_search(elem: int, arr: Sequence) -> Optional[int]:
     else:
         rt = mid - 1
     result = binary_search(elem, arr[lt:rt + 1])
-    if result == None:
-        return None
-    return result + lt
+    return None if result is None else result + lt
 
 
 if __name__ == '__main__':
