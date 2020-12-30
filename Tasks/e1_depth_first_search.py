@@ -18,18 +18,20 @@ def dfs(g: nx.Graph, start_node: Hashable) -> List[Hashable]:
     :return: list of nodes in the visited order
     """
     visitedNodes = {node: False for node in g.nodes}
-    path = []
+    path = [start_node]
     visitedNodes[start_node] = True
-    waitingNodes = deque()
-    waitingNodes.append(start_node)
+    waitingNodes = [start_node]
     while waitingNodes:
-        currentNode = waitingNodes.pop()
-        path.append(currentNode)
-        visitedNodes[currentNode] = True
+        currentNode = waitingNodes[-1]
+        if all(visitedNodes[node] for node in g.neighbors(currentNode)):
+            waitingNodes.pop()
+            continue
         for node in g.neighbors(currentNode):
             if not visitedNodes[node]:
                 visitedNodes[node] = True
                 waitingNodes.append(node)
+                path.append(currentNode)
+                break
     return path
 
 
