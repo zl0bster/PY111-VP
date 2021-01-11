@@ -4,7 +4,29 @@ or with dicts (smth like {'key': 0, value: 123, 'left': {...}, 'right':{...}})
 """
 
 from typing import Any, Optional, Tuple
+
 # import networkx as nx
+
+binTree = {}
+rootNode = None
+
+
+class Node:
+    def __init__(self, key: int, value: Any):
+        self.key = key
+        self.value = value
+        self.parent = None
+        self.left = None
+        self.right = None
+
+    def is_leaf(self):
+        if self.left is None and self.right is None:
+            return True
+        return False
+
+    def __str__(self):
+        result = f"({self.key}) ^{self.parent} <{self.left} >{self.right}"
+        return result
 
 
 def insert(key: int, value: Any) -> None:
@@ -15,7 +37,34 @@ def insert(key: int, value: Any) -> None:
     :param value: value associated with key
     :return: None
     """
-    print(key, value)
+    global rootNode, binTree
+    if key in binTree.keys():
+        binTree[key].value = value
+        return None
+        # raise KeyError
+    node = Node(key=key, value=value)
+    binTree[key] = node
+    if rootNode is None:
+        rootNode = key
+        return None
+    curNode = rootNode
+    while True:
+        if key < curNode:
+            if binTree[curNode].left is None:
+                binTree[curNode].left = key
+                binTree[key].parent = curNode
+                break
+            else:
+                curNode = binTree[curNode].left
+                continue
+        else:
+            if binTree[curNode].right is None:
+                binTree[curNode].right = key
+                binTree[key].parent = curNode
+                break
+            else:
+                curNode = binTree[curNode].right
+                continue
     return None
 
 
@@ -47,4 +96,6 @@ def clear() -> None:
 
     :return: None
     """
+    binTree.clear()
+    rootNode = None
     return None
