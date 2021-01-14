@@ -18,10 +18,17 @@ class MyTestCase(unittest.TestCase):
 
     def test_removes(self):
         try:
+            bst.insert(42, 'The meaning of life, the universe and everything.')
+            bst.insert(0, 'ZERO!')
+            bst.insert(13, "Devil's sign here")
+            bst.insert(112, "Oh no, devil's sign again Oo")
+            bst.showTree()
             bst.insert(42, "The meaning again")
+            bst.showTree()
             bst.remove(42)
             bst.remove(42)
             bst.remove(43)
+            bst.showTree()
         except Exception as e:
             print(e)
             self.fail(

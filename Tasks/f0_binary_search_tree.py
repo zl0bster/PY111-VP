@@ -12,7 +12,7 @@ rootNode = None
 
 
 class Node:
-    def __init__(self, key: int, value: Any):
+    def __init__(self, key: int, value: Any) -> None:
         self.key = key
         self.value = value
         self.parent = None
@@ -21,6 +21,11 @@ class Node:
 
     def is_leaf(self):
         if self.left is None and self.right is None:
+            return True
+        return False
+
+    def is_full(self):
+        if self.left and self.right:
             return True
         return False
 
@@ -41,7 +46,6 @@ def insert(key: int, value: Any) -> None:
     if key in binTree.keys():
         binTree[key].value = value
         return None
-        # raise KeyError
     node = Node(key=key, value=value)
     binTree[key] = node
     if rootNode is None:
@@ -75,7 +79,25 @@ def remove(key: int) -> Optional[Tuple[int, Any]]:
     :param key: key to be removed
     :return: deleted (key, value) pair or None
     """
-    print(key)
+    global rootNode, binTree
+    curNode = rootNode
+    while True:
+        if curNode == key:
+            result = binTree[curNode].value
+            # todo переподключить поля parent, left and right af affected nodes
+            return result
+        if key < curNode:
+            if binTree[curNode].left:
+                curNode = binTree[curNode].left
+                continue
+            else:
+                break
+        else:
+            if binTree[curNode].right:
+                curNode = binTree[curNode].right
+                continue
+            else:
+                break
     return None
 
 
@@ -86,8 +108,24 @@ def find(key: int) -> Optional[Any]:
     :param key: key for search in the BST
     :return: value associated with the corresponding key
     """
-    print(key)
-    return None
+    global rootNode, binTree
+    curNode = rootNode
+    while True:
+        if curNode == key:
+            return binTree[curNode].value
+        if key < curNode:
+            if binTree[curNode].left:
+                curNode = binTree[curNode].left
+                continue
+            else:
+                break
+        else:
+            if binTree[curNode].right:
+                curNode = binTree[curNode].right
+                continue
+            else:
+                break
+    raise KeyError
 
 
 def clear() -> None:
@@ -96,6 +134,13 @@ def clear() -> None:
 
     :return: None
     """
+    global rootNode, binTree
     binTree.clear()
     rootNode = None
     return None
+
+
+def showTree():
+    print('+' * 12)
+    for node in binTree:
+        print(node)
