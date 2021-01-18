@@ -27,8 +27,15 @@ def sort(container: List[int]) -> List[int]:
             pivot = left  # 1. Неким образом определяем опорный элемент
             i, j = left + 1, right  # 2. Идем по массиву двумя счетчиками – слева направо и справа налево
             # 3. Увеличиваем левый счетчик, пока он не встретит элемент больше или равный опорному
-            while container[left] < container[pivot]:
-                i += 1
+            while i != j:
+                while container[left] < container[pivot]:
+                    if i == j:
+                        break
+                    i += 1
+                while container[right] > container[pivot]:
+                    if i == j:
+                        break
+                    j -= 1
 
         _sort(0, len(container) - 1)
         return container
