@@ -8,7 +8,7 @@ def task_1(arr: Sequence):
     """Оценить асимптотическую сложность приведенного ниже алгоритма: """
     a = len(arr) - 1  # O(1)
     out = list()  # O(1)
-    while a > 0:  # O(n) для всего цикла
+    while a > 0:  # O(n) для всего цикла (!) согласен, здесь , похоже, O(log n) подходит больше
         out.append(arr[a])
         a = a // 1.7
     out.merge_sort()  # O(n log n)
