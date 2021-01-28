@@ -1,6 +1,7 @@
 """функции имеют имена соответствующие номеру задания"""
 from typing import Sequence
 import networkx as nx
+from random import randint
 
 
 def task_1(arr: Sequence):
@@ -11,6 +12,9 @@ def task_1(arr: Sequence):
         out.append(arr[a])
         a = a // 1.7
     out.merge_sort()  # O(n log n)
+
+
+# в итоге САМЫМ долгим будет время сортировки O(n log n), что и определяет время алгоритма
 
 
 def task_2(n: int, k: int) -> int:
@@ -30,14 +34,17 @@ def task_2(n: int, k: int) -> int:
     return players[0]
 
 
-def task_4():
+def task_4(size: int, start: str, finish: str) -> Sequence:
     """
     Навигатор на сетке.
     Дана плоская квадратная двумерная сетка (массив),
     на которой определена стоимость захода в каждую ячейку (все стоимости положительные).
     Необходимо найти путь минимальной стоимости из заданной ячейки в заданную ячейку и вывести этот путь.
     """
-    ...
+    gfx = task_4_net_create(size)
+
+    print(f'стоимость маршрута  = {nx.dijkstra_path_length(gfx, start, finish)}')
+    return nx.dijkstra_path(gfx, start, finish)
 
 
 def task_5(arg: list) -> str:
@@ -94,6 +101,39 @@ def task_7():
     """
 
 
+def task_4_net_create(size: int) -> nx.Graph:
+    """ создание квадратной сетки с весами и потом графа с ребрами по сетке """
+
+    def node_name(x: int, y: int) -> str:
+        return f'{x}_{y}'
+
+    network = [[randint(1, 10) for _ in range(size)] for _ in range(size)]
+    edgeList = []
+    relations = [-1, 1]
+    for x in range(size):
+        for y in range(size):
+            cellName = node_name(x, y)
+            for relation in relations:
+                xCur = x + relation
+                if 0 <= xCur < size:
+                    cellNearName = node_name(xCur, y)
+                    edgeData = (cellName, cellNearName, network[y][xCur])
+                    edgeList.append(edgeData)
+            for relation in relations:
+                yCur = y + relation
+                if 0 <= yCur < size:
+                    cellNearName = node_name(x, yCur)
+                    edgeData = (cellName, cellNearName, network[yCur][x])
+                    edgeList.append(edgeData)
+    for i, arg in enumerate(edgeList):
+        print(i, arg)
+    for i, arg in enumerate(network):
+        print(i, arg)
+    sqr_graph = nx.Graph()
+    sqr_graph.add_weighted_edges_from(edgeList)
+    return sqr_graph
+
+
 if __name__ == '__main__':
     print(task_2(5, 12))
     task_5_arg = ['ATTA',
@@ -102,3 +142,5 @@ if __name__ == '__main__':
                   'ACAA'
                   ]
     print(task_5(task_5_arg))
+    route = task_4(size=8, start='7_0', finish='0_7')
+    print(f'маршрут {route}')
